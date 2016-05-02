@@ -30,7 +30,8 @@ ValidatedFormMixin =
     onChange: (key) -> (value) =>
         values = @state.values || {}
         values[key] = value
-        @setState {values}
+        @setState {values}, =>
+            @onChanged?(key, value)
 
     clear: ->
         @setState {values: {}, errors: {}}
