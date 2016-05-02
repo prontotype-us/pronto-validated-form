@@ -65,29 +65,65 @@ ValidatedField = React.createClass
         return null
 
     changeValue: (e) ->
-        value = e.target.value
+        value = e.target?.value || e
         @props.onChange(value)
 
     render: ->
+
         field_class = 'field'
         if @props.error
             field_class += ' has-error'
 
         <div className=field_class>
-            <input key=@props.name
-                name=@props.name
-                type=@props.type
-                placeholder={@props.placeholder || @props.name}
-                value=@props.value
-                onChange=@changeValue
-            />
+            {switch @props.type
+                when 'toggle'
+                    <Toggle options=@props.options onChange=@changeValue selected=@props.value />
+                when 'select'
+                    <select value=@props.value onChange=@changeValue>
+                        <option>Select one</option>
+                        {@props.options.map (o) ->
+                            <option value={o.value || o}>{o.display || o}</option>
+                        }
+                    </select>
+                else         
+                    <input key=@props.name
+                        name=@props.name
+                        type=@props.type
+                        placeholder={@props.placeholder || @props.name}
+                        value=@props.value
+                        onChange=@changeValue
+                    />
+            }
             {if @props.error
                 <span className='error'>{@props.error}</span>
             }
         </div>
 
+Toggle = React.createClass
+    getInitialState: ->
+        selected: @props.selected || ''
+
+    select: (key) -> =>
+        @value = key
+        @setState selected: key
+        @props.onChange?(key)
+
+    selected: (key) ->
+        if @state.selected == key
+            'selected'
+        else
+            ''
+
+    render: ->
+        <div className='toggle'>
+            {@props.options.map @renderOption}
+        </div>
+
+    renderOption: (option, i) ->
+        <a key=i onClick=@select(option) className=@selected(option)>{option}</a>
+
+
 module.exports = {
     ValidatedField
     ValidatedFormMixin
 }
-
