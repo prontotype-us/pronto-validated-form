@@ -70,11 +70,15 @@ ValidatedField = React.createClass
 
     render: ->
 
-        field_class = 'field'
-        if @props.error
-            field_class += ' has-error'
+        form_group_class = 'form-group' + (if @props.className then (' ' + @props.className) else '') + (if @props.error then ' has-error' else '') + (if !@props.optional then ' required' else '')
 
-        <div className=field_class>
+        <div className=form_group_class key={'field-' + @props.name}>
+            {if @props.icon
+                <i className="fa fa-#{@props.icon}" />
+            }
+            {if @props.type != 'hidden'
+                <label htmlFor=@props.name>{@props.label || @props.name}</label>
+            }
             {switch @props.type
                 when 'toggle'
                     <Toggle options=@props.options onChange=@changeValue selected=@props.value />
