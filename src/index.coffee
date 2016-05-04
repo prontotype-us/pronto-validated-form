@@ -86,7 +86,7 @@ ValidatedField = React.createClass
                     <select value=@props.value onChange=@changeValue>
                         <option>Select one</option>
                         {@props.options.map (o) ->
-                            <option value={o.value || o}>{o.display || o}</option>
+                            <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
                         }
                     </select>
                 else         
