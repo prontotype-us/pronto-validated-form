@@ -65,7 +65,10 @@ ValidatedField = React.createClass
         return null
 
     changeValue: (e) ->
-        value = e.target?.value || e
+        console.log 'e =', e
+        console.log 'e.target.value =', e.target.value
+        value = if e.target? then e.target.value else e
+        console.log 'value =', value
         @props.onChange(value)
 
     render: ->
