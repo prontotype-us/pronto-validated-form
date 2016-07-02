@@ -3,13 +3,16 @@ helpers = require './helpers'
 validation = require './validation'
 
 ValidatedFormMixin =
+    resetState: ->
+        @setState @getInitialState()
+
     validate: ->
         helpers.compactObj helpers.mapObjKey @fields, (field_name) =>
-            @refs[field_name].validate()
+            @refs[field_name]?.validate()
 
     values: ->
         helpers.mapObjKey @fields, (field_name) =>
-            @refs[field_name].value()
+            @refs[field_name]?.value()
 
     # Validate and maybe even submit form
     trySubmit: (e) ->
@@ -40,7 +43,8 @@ ValidatedFormMixin =
         field = @fields[field_name]
 
         <ValidatedField {...field}
-            ref=field_name key=field_name
+            ref=field_name
+            key=field_name
             name=field_name
             value=@state.values?[field_name]
             error=@state.errors?[field_name]
@@ -69,10 +73,9 @@ ValidatedField = React.createClass
         @props.onChange(value)
 
     render: ->
-
         form_group_class = 'form-group' + (if @props.className then (' ' + @props.className) else '') + (if @props.error then ' has-error' else '') + (if !@props.optional then ' required' else '')
 
-        <div className=form_group_class key={'field-' + @props.name}>
+        <div className=form_group_class>
             {if @props.icon
                 <i className="fa fa-#{@props.icon}" />
             }
@@ -84,12 +87,12 @@ ValidatedField = React.createClass
                     <Toggle options=@props.options onChange=@changeValue selected=@props.value />
                 when 'select'
                     <select value=@props.value onChange=@changeValue>
-                        <option>Select one</option>
+                        <option>{@props.placeholder || 'Select one'}</option>
                         {@props.options.map (o) ->
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
                         }
                     </select>
-                else         
+                else
                     <input key=@props.name
                         name=@props.name
                         type=@props.type
@@ -98,6 +101,7 @@ ValidatedField = React.createClass
                         onChange=@changeValue
                     />
             }
+
             {if @props.error
                 <span className='error'>{@props.error}</span>
             }
