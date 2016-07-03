@@ -1,4 +1,5 @@
 React = require 'react'
+classSet = require 'react-classset'
 helpers = require './helpers'
 validation = require './validation'
 
@@ -73,7 +74,12 @@ ValidatedField = React.createClass
         @props.onChange(value)
 
     render: ->
-        form_group_class = 'form-group' + (if @props.className then (' ' + @props.className) else '') + (if @props.error then ' has-error' else '') + (if !@props.optional then ' required' else '')
+        form_group_class = classSet
+            'form-group': true
+            "#{@props.name}": true
+            "#{@props.className}": true
+            'has-error': @props.error
+            'required': !@props.optional
 
         <div className=form_group_class>
             {if @props.icon
