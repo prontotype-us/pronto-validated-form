@@ -73,6 +73,9 @@ ValidatedField = React.createClass
         value = if e.target? then e.target.value else e
         @props.onChange(value)
 
+    focus: ->
+        @refs.field.focus()
+
     render: ->
         form_group_class = classSet
             'form-group': true
@@ -100,6 +103,7 @@ ValidatedField = React.createClass
                     </select>
                 when 'textarea'
                     <textarea key=@props.name
+                        ref='field'
                         name=@props.name
                         type=@props.type
                         placeholder={@props.placeholder || @props.name}
@@ -108,6 +112,7 @@ ValidatedField = React.createClass
                     />
                 else
                     <input key=@props.name
+                        ref='field'
                         name=@props.name
                         type=@props.type
                         placeholder={@props.placeholder || @props.name}
