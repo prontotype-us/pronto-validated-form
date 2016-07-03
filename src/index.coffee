@@ -98,6 +98,14 @@ ValidatedField = React.createClass
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
                         }
                     </select>
+                when 'textarea'
+                    <textarea key=@props.name
+                        name=@props.name
+                        type=@props.type
+                        placeholder={@props.placeholder || @props.name}
+                        value=@props.value
+                        onChange=@changeValue
+                    />
                 else
                     <input key=@props.name
                         name=@props.name
