@@ -91,7 +91,7 @@ ValidatedField = React.createClass
         @refs.field.focus()
 
     isOptional: ->
-        console.log @props.values, 'checking optional'
+
         if _.isFunction(@props.optional)
             return @props.optional(@props.values)
 
@@ -102,7 +102,7 @@ ValidatedField = React.createClass
             false
 
     render: ->
-        console.log 'these are my props', @props
+
         form_group_class = classSet
             'form-group': true
             "#{@props.name}": true
