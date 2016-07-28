@@ -148,6 +148,8 @@ ValidatedField = React.createClass
                         placeholder={@props.placeholder || helpers.humanize(@props.name)}
                         value=@props.value
                         onChange=@changeValue
+                        autoComplete=@props.autoComplete
+                        autoCorrect=@props.autoCorrect
                     />
                 else
                     <input key=@props.name
@@ -157,6 +159,8 @@ ValidatedField = React.createClass
                         placeholder={@props.placeholder || helpers.humanize(@props.name)}
                         value=value
                         onChange=@changeValue
+                        autoComplete=@props.autoComplete
+                        autoCorrect=@props.autoCorrect
                     />
             }
 
