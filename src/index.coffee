@@ -1,3 +1,4 @@
+_ = require 'underscore'
 React = require 'react'
 classSet = require 'react-classset'
 helpers = require './helpers'
@@ -50,6 +51,7 @@ ValidatedFormMixin =
             value=@state.values?[field_name]
             error=@state.errors?[field_name]
             onChange=@onChange(field_name)
+            values=@state.values
         />
 
 ValidatedField = React.createClass
@@ -60,7 +62,19 @@ ValidatedField = React.createClass
         return @props.value
 
     validate: ->
-        if @props.optional
+        # Don't bother validating optional fields
+        if _.isFunction(@props.optional)
+            if @props.optional(@props.values)
+                return null
+
+        else if @props.optional
+            return null
+
+        if _.isFunction(@props.hidden)
+            if @props.hidden(@props.values)
+                return null
+
+        else if @props.hidden
             return null
 
         validator = @props.validator || validation[@props.type] || validation.exists
@@ -76,20 +90,45 @@ ValidatedField = React.createClass
     focus: ->
         @refs.field.focus()
 
+    isOptional: ->
+        console.log @props.values, 'checking optional'
+        if _.isFunction(@props.optional)
+            return @props.optional(@props.values)
+
+        else if @props.optional
+            return true
+
+        else
+            false
+
     render: ->
+        console.log 'these are my props', @props
         form_group_class = classSet
             'form-group': true
             "#{@props.name}": true
             "#{@props.className}": true
             'has-error': @props.error
-            'required': !@props.optional
+            'required': !@isOptional()
+
+        _value = @props.value
+
+        if @props.type == 'phone'
+            dashless = _value.replace(/-/g,'')
+            if dashless.length == 4
+                value = dashless[0..2] + '-' + dashless[3..]
+            else if dashless.length == 7
+                value = dashless[0..2] + '-' + dashless[3..5] + '-' + dashless[6..]
+            else
+                value = _value
+        else
+            value = _value
 
         <div className=form_group_class>
             {if @props.icon
                 <i className="fa fa-#{@props.icon}" />
             }
             {if @props.type != 'hidden'
-                <label htmlFor=@props.name>{@props.label || @props.name}</label>
+                <label htmlFor=@props.name>{@props.label || helpers.humanize(@props.name)}</label>
             }
             {switch @props.type
                 when 'toggle'
@@ -106,7 +145,7 @@ ValidatedField = React.createClass
                         ref='field'
                         name=@props.name
                         type=@props.type
-                        placeholder={@props.placeholder || @props.name}
+                        placeholder={@props.placeholder || helpers.humanize(@props.name)}
                         value=@props.value
                         onChange=@changeValue
                     />
@@ -115,8 +154,8 @@ ValidatedField = React.createClass
                         ref='field'
                         name=@props.name
                         type=@props.type
-                        placeholder={@props.placeholder || @props.name}
-                        value=@props.value
+                        placeholder={@props.placeholder || helpers.humanize(@props.name)}
+                        value=value
                         onChange=@changeValue
                     />
             }
