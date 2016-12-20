@@ -41,6 +41,13 @@ ValidatedFormMixin =
     clear: ->
         @setState {values: {}, errors: {}}
 
+    renderFields: ->
+        <div>
+            {Object.keys(@props.fields).map (field_name) =>
+                @renderField field_name
+            }
+        </div>
+
     renderField: (field_name) ->
         field = @props.fields[field_name]
 
