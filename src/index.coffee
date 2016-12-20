@@ -9,11 +9,11 @@ ValidatedFormMixin =
         @setState @getInitialState()
 
     validate: ->
-        helpers.compactObj helpers.mapObjKey @fields, (field_name) =>
+        helpers.compactObj helpers.mapObjKey @props.fields, (field_name) =>
             @refs[field_name]?.validate()
 
     values: ->
-        helpers.mapObjKey @fields, (field_name) =>
+        helpers.mapObjKey @props.fields, (field_name) =>
             @refs[field_name]?.value()
 
     # Validate and maybe even submit form
@@ -42,7 +42,7 @@ ValidatedFormMixin =
         @setState {values: {}, errors: {}}
 
     renderField: (field_name) ->
-        field = @fields[field_name]
+        field = @props.fields[field_name]
 
         <ValidatedField {...field}
             ref=field_name
@@ -130,6 +130,7 @@ ValidatedField = React.createClass
             {if @props.type != 'hidden'
                 <label htmlFor=@props.name>{@props.label || helpers.humanize(@props.name)}</label>
             }
+
             {switch @props.type
                 when 'toggle'
                     <Toggle options=@props.options onChange=@changeValue selected=@props.value />
@@ -191,7 +192,6 @@ Toggle = React.createClass
 
     renderOption: (option, i) ->
         <a key=i onClick=@select(option) className=@selected(option)>{option}</a>
-
 
 module.exports = {
     ValidatedField
