@@ -110,12 +110,13 @@ ValidatedField = React.createClass
 
     render: ->
 
-        form_group_class = classSet
+        form_group_class_set =
             'form-group': true
-            "#{@props.name}": true
-            "#{@props.className}": true
             'has-error': @props.error
             'required': !@isOptional()
+        form_group_class_set["#{@props.name}"] = true
+        form_group_class_set["#{@props.className}"] = true
+        form_group_class = classSet form_group_class_set
 
         _value = @props.value
 
@@ -131,11 +132,13 @@ ValidatedField = React.createClass
             value = _value
 
         <div className=form_group_class>
-            {if @props.icon
-                <i className="fa fa-#{@props.icon}" />
-            }
             {if @props.type != 'hidden'
-                <label htmlFor=@props.name>{@props.label || helpers.humanize(@props.name)}</label>
+                <label htmlFor=@props.name>
+                    {if @props.icon
+                        <i className="fa fa-#{@props.icon}" />
+                    }
+                    {@props.label || helpers.humanize(@props.name)}
+                </label>
             }
 
             {switch @props.type
@@ -204,3 +207,4 @@ module.exports = {
     ValidatedField
     ValidatedFormMixin
 }
+
