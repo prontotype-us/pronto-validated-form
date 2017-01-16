@@ -9,11 +9,11 @@ ValidatedFormMixin =
         @setState @getInitialState()
 
     validate: ->
-        helpers.compactObj helpers.mapObjKey @props.fields, (field_name) =>
+        helpers.compactObj helpers.mapObjKey @props.fields or @fields, (field_name) =>
             @refs[field_name]?.validate()
 
     values: ->
-        helpers.mapObjKey @props.fields, (field_name) =>
+        helpers.mapObjKey @props.fields or @fields, (field_name) =>
             @refs[field_name]?.value()
 
     # Validate and maybe even submit form
@@ -42,14 +42,16 @@ ValidatedFormMixin =
         @setState {values: {}, errors: {}}
 
     renderFields: ->
+        fields = @props.fields or @fields
         <div>
-            {Object.keys(@props.fields).map (field_name) =>
+            {Object.keys(fields).map (field_name) =>
                 @renderField field_name
             }
         </div>
 
     renderField: (field_name) ->
-        field = @props.fields[field_name]
+        fields = @props.fields or @fields
+        field = fields[field_name] 
 
         <ValidatedField {...field}
             ref=field_name
