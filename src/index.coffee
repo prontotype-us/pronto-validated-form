@@ -136,7 +136,7 @@ ValidatedField = React.createClass
                     {if @props.icon
                         <i className="fa fa-#{@props.icon}" />
                     }
-                    {@props.label || helpers.humanize(@props.name)}
+                    <span>{@props.label || helpers.humanize(@props.name)}</span>
                 </label>
             }
 
