@@ -1,4 +1,3 @@
-_ = require 'underscore'
 React = require 'react'
 classSet = require 'react-classset'
 helpers = require './helpers'
@@ -70,14 +69,14 @@ ValidatedField = React.createClass
 
     validate: ->
         # Don't bother validating optional fields
-        if _.isFunction(@props.optional)
+        if typeof @props.optional == 'function'
             if @props.optional(@props.values)
                 return null
 
         else if @props.optional
             return null
 
-        if _.isFunction(@props.hidden)
+        if typeof @props.hidden == 'function'
             if @props.hidden(@props.values)
                 return null
 
@@ -99,7 +98,7 @@ ValidatedField = React.createClass
 
     isOptional: ->
 
-        if _.isFunction(@props.optional)
+        if typeof @props.optional == 'function'
             return @props.optional(@props.values)
 
         else if @props.optional
