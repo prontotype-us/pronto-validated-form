@@ -178,6 +178,19 @@ ValidatedField = React.createClass
             }
         </div>
 
+ValidatedForm = React.createClass
+    mixins: [ValidatedFormMixin]
+
+    getInitialState: ->
+        loading: false
+        values: @props.values or {}
+
+    render: ->
+        <form onSubmit=@trySubmit className='validated-form'>
+            {@renderFields()}
+            <button>{if @state.loading then "Loading..." else "Submit"}</button>
+        </form>
+
 Toggle = React.createClass
     getInitialState: ->
         selected: @props.selected || ''
@@ -204,5 +217,6 @@ Toggle = React.createClass
 module.exports = {
     ValidatedField
     ValidatedFormMixin
+    ValidatedForm
 }
 
