@@ -14,11 +14,10 @@ Helpers for creating a form with validated fields.
 
 ```coffee
 <ValidatedForm ref='form' fields={
-	street: {name: 'street'}
-	city: {name: 'city'}
-	state: {name: 'state', placeholder: 'e.g. "NY" or "MA"'}
-	county: {name: 'county', optional: true}
-} onSubmit={(street) -> alert('this street is in ' + street.city) } />
+	city: {}
+	state: {placeholder: 'e.g. "NY" or "MA"'}
+	county: {optional: true}
+} onSubmit={({city, state, county}) -> alert(city + ' is in ' + state) } />
 ```
 
 ## ValidatedField
