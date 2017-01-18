@@ -29,7 +29,7 @@ ValidatedFormMixin =
 
             else
                 values = @values()
-                @onSubmit(values)
+                (@props.onSubmit or @onSubmit)?(values)
 
     onChange: (key) -> (value) =>
         values = @state.values || {}
@@ -55,9 +55,9 @@ ValidatedFormMixin =
             key=field_name
             name=field_name
             value=@state.values?[field_name]
+            values=@state.values
             error=@state.errors?[field_name]
             onChange=@onChange(field_name)
-            values=@state.values
         />
 
 ValidatedField = React.createClass
@@ -68,19 +68,8 @@ ValidatedField = React.createClass
         return @props.value
 
     validate: ->
-        # Don't bother validating optional fields
-        if typeof @props.optional == 'function'
-            if @props.optional(@props.values)
-                return null
-
-        else if @props.optional
-            return null
-
-        if typeof @props.hidden == 'function'
-            if @props.hidden(@props.values)
-                return null
-
-        else if @props.hidden
+        # Don't bother validating optional or hiddenfields
+        if @isOptional() or @isHidden()
             return null
 
         validator = @props.validator || validation[@props.type] || validation.exists
@@ -97,7 +86,6 @@ ValidatedField = React.createClass
         @refs.field.focus()
 
     isOptional: ->
-
         if typeof @props.optional == 'function'
             return @props.optional(@props.values)
 
@@ -105,7 +93,18 @@ ValidatedField = React.createClass
             return true
 
         else
-            false
+            return false
+
+    isHidden: ->
+        if typeof @props.hidden == 'function'
+            if @props.hidden(@props.values)
+                return true
+
+        else if @props.hidden
+            return true
+
+        else
+            return false
 
     render: ->
 
