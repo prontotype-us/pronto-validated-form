@@ -142,7 +142,7 @@ ValidatedField = React.createClass
                 when 'toggle'
                     <Toggle options=@props.options onChange=@changeValue selected=@props.value />
                 when 'select'
-                    <select value=@props.value onChange=@changeValue>
+                    <select value=value onChange=@changeValue>
                         <option>{@props.placeholder || 'Select one'}</option>
                         {@props.options.map (o) ->
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
@@ -154,7 +154,7 @@ ValidatedField = React.createClass
                         name=@props.name
                         type=@props.type
                         placeholder={@props.placeholder || helpers.humanize(@props.name)}
-                        value=@props.value
+                        value=value
                         onChange=@changeValue
                         autoComplete=@props.autoComplete
                         autoCorrect=@props.autoCorrect
