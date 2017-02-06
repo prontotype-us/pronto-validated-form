@@ -115,7 +115,7 @@ ValidatedField = React.createClass
         form_group_class_set["#{@props.className}"] = true
         form_group_class = classSet form_group_class_set
 
-        _value = @props.value
+        _value = @props.value || ''
 
         if @props.type == 'phone'
             dashless = _value.replace(/-/g,'')
