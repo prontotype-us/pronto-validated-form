@@ -2,6 +2,7 @@ React = require 'react'
 classSet = require 'react-classset'
 helpers = require './helpers'
 validation = require './validation'
+ObjectEditor = require 'object-editor'
 
 ValidatedFormMixin =
     resetState: ->
@@ -159,6 +160,8 @@ ValidatedField = React.createClass
                         autoComplete=@props.autoComplete
                         autoCorrect=@props.autoCorrect
                     />
+                when 'object'
+                    <ObjectEditor object={value or {}} onSave=@changeValue />
                 else
                     <input key=@props.name
                         ref='field'
