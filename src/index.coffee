@@ -12,10 +12,6 @@ ValidatedFormMixin =
         helpers.compactObj helpers.mapObjKey @props.fields, (field_name) =>
             @refs[field_name]?.validate()
 
-    values: ->
-        helpers.mapObjKey @props.fields, (field_name) =>
-            @refs[field_name]?.value()
-
     # Validate and maybe even submit form
     trySubmit: (e) ->
         e.preventDefault()
@@ -29,7 +25,7 @@ ValidatedFormMixin =
                 @setState {errors: errors}
 
             else
-                values = @values()
+                {values} = @state
                 (@props.onSubmit or @onSubmit)?(values)
 
     onChange: (key) -> (value) =>
