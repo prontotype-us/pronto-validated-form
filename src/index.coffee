@@ -26,16 +26,19 @@ ValidatedFormMixin =
 
             else
                 {values} = @state
-                (@props.onSubmit or @onSubmit)?(values)
+                @props.onSubmit?(values, @onUpdated)
+
+    onUpdated: ->
+        @setState {changed: false}
 
     onChange: (key) -> (value) =>
         values = @state.values || {}
         values[key] = value
-        @setState {values}, =>
+        @setState {values, changed: true}, =>
             @onChanged?(key, value)
 
     clear: ->
-        @setState {values: {}, errors: {}}
+        @setState {values: {}, errors: {}, changed: false}
 
     renderFields: ->
         <div>
@@ -181,12 +184,19 @@ ValidatedForm = React.createClass
 
     getInitialState: ->
         loading: false
+        changed: false
         values: @props.values or {}
 
     render: ->
         <form onSubmit=@trySubmit className='validated-form'>
             {@renderFields()}
-            <button>{if @state.loading then "Loading..." else "Submit"}</button>
+            <button disabled={!@state.changed}>
+                {if @state.loading
+                    "Loading..."
+                else
+                    "Submit"
+                }
+            </button>
         </form>
 
 Toggle = React.createClass
