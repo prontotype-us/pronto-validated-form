@@ -26,7 +26,10 @@ ValidatedFormMixin =
 
             else
                 {values} = @state
-                @props.onSubmit?(values, @onUpdated)
+                if @props.onSubmit?
+                    @props.onSubmit?(values, @onUpdated)
+                else if @onSubmit?
+                    @onSubmit(values)
 
     onUpdated: ->
         @setState {changed: false}
