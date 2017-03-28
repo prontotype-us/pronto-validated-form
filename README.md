@@ -14,9 +14,9 @@ Helpers for creating a form with validated fields.
 
 ```coffee
 <ValidatedForm ref='form' fields={
-	city: {}
-	state: {placeholder: 'e.g. "NY" or "MA"'}
-	county: {optional: true}
+    city: {}
+    state: {placeholder: 'e.g. "NY" or "MA"'}
+    county: {optional: true}
 } onSubmit={({city, state, county}) -> alert(city + ' is in ' + state) } />
 ```
 
@@ -41,10 +41,10 @@ The `ValidatedFormMixin` provides methods for rendering fields, keeping track of
     * A component that uses this mixin *must* define a `getInitialState` that returns at least an empty `values: {}`, because a React component does not have state by default
     * You can also use this to pre-fill values of fields, with e.g. `values: {email: 'test@gmail.net'}`
 * `getDefaultProps() -> {fields, onSubmit}`
-	* Define fields and other props here, or pass them in as props instead
+    * Define fields and other props here, or pass them in as props instead
 * `onSubmit(values)`
-	* A function to be called when the form is submitted (only if fields are valid)
-	* Can be defined directly on your class instead of as a property
+    * A function to be called when the form is submitted (only if fields are valid)
+    * Can be defined directly on your class instead of as a property
 
 ### Properties 
 
@@ -73,11 +73,11 @@ FormTest = React.createClass
         values:
             name: 'test'
 
-	getDefaultProps: ->
-		fields:
-			name: {type: 'text'}
-			age: {type: 'number'}
-			email: {type: 'email'}
+    getDefaultProps: ->
+        fields:
+            name: {type: 'text'}
+            age: {type: 'number'}
+            email: {type: 'email'}
 
     onSubmit: (values) ->
         @setState {loading: true}
