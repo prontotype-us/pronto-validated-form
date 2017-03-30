@@ -33,7 +33,7 @@ capWords = (s) -> s.replace /\b\w/g, (m) -> m.toUpperCase()
 capIDs = (s) -> s.replace /\bid\b/, 'ID'
 
 slugify = (s) -> s.toLowerCase().replace /\W+/g, '-'
-deslugify = (s) -> capWords capIDs s.replace /[^a-z]+/g, ' '
+unslugify = (s) -> capWords capIDs s.replace /[^a-z]+/g, ' '
 humanize = (s) ->
     s = s.toLowerCase().replace /[^a-z]+/g, ' '
     s = s[0].toUpperCase() + s.substr(1)
@@ -49,6 +49,6 @@ module.exports = {
     capWords
     capIDs
     slugify
-    deslugify
+    unslugify
     humanize
 }

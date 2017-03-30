@@ -75,9 +75,15 @@ ValidatedField = React.createClass
         if @isOptional() or @isHidden()
             return null
 
-        validator = @props.validator || validation[@props.type] || validation.exists
+        validator = @props.validator || validation['valid_' + @props.type] || validation.exists
+
         if !validator(@props.value)
-            return @props.error_message || "Nothing in #{@props.name}"
+            if @props.error_message
+                return @props.error_message
+            else if !@props.value
+                return "Empty #{helpers.unslugify @props.name}"
+            else
+                return "Invalid #{helpers.unslugify @props.name}"
 
         return null
 
