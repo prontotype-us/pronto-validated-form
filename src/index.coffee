@@ -242,7 +242,10 @@ Checkbox = React.createClass
                 {if @props.icon
                     <i className="fa fa-#{@props.icon}" />
                 }
-                <span>{@props.label || helpers.humanize(@props.name)}</span>
+                {if @props.label? 
+                    @props.label
+                else
+                    <span>{helpers.humanize(@props.name)}</span>
             </label>
         </div>
 
