@@ -246,6 +246,7 @@ Checkbox = React.createClass
                     @props.label
                 else
                     <span>{helpers.humanize(@props.name)}</span>
+                }
             </label>
         </div>
 
