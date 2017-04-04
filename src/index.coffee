@@ -44,9 +44,6 @@ ValidatedFormMixin =
         @setState {values: {}, errors: {}, changed: false}
 
     renderFields: ->
-        console.log '[ValidatedFormMixin.renderFields] @props =', @props
-        console.log '[ValidatedFormMixin.renderFields] @state =', @state
-
         <div>
             {Object.keys(@props.fields).map (field_name) =>
                 @renderField field_name
@@ -91,7 +88,6 @@ ValidatedField = React.createClass
         return null
 
     changeValue: (e) ->
-        console.log '[ValidatedField.changeValue] e =', e
         value = if e.target? then e.target.value else e
         @props.onChange(value)
 
@@ -185,6 +181,7 @@ ValidatedField = React.createClass
                         label=@props.label
                         onChange=@changeValue
                         checked=@props.value
+                        error=@props.error
                     />
                 else
                     <input key=@props.name
@@ -228,11 +225,7 @@ Checkbox = React.createClass
     getInitialState: ->
         checked: @props.checked || false
 
-    componentWillReceiveProps: ->
-        @setState checked: @props.checked
-
     toggleCheck: ->
-        console.log '[Checkbox.toggleCheck]'
         @setState checked: !@state.checked, =>
             @props.onChange?(@state.checked)
 
@@ -243,6 +236,7 @@ Checkbox = React.createClass
                 name=@props.name
                 checked={@state.checked}
                 onChange=@toggleCheck
+                className={if @props.error then 'error' else ''}
             />
             <label htmlFor=@props.name>
                 {if @props.icon
