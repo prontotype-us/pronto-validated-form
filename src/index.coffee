@@ -218,11 +218,21 @@ ValidatedForm = React.createClass
         </form>
 
 Checkbox = React.createClass
+    getInitialState: ->
+        checked: false
+
+    toggleCheck: ->
+        console.log '[Checkbox.toggleCheck]'
+        @setState checked: !@state.checked
+        @props.onChange?()
+
     render: ->
         <div className='checkbox'>
             <input 
                 type='checkbox'
                 name=@props.name
+                checked={@state.checked}
+                onChange=@toggleCheck
             />
             <label htmlFor=@props.name>
                 {if @props.icon
