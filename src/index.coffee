@@ -91,6 +91,7 @@ ValidatedField = React.createClass
         return null
 
     changeValue: (e) ->
+        console.log '[ValidatedField.changeValue] e =', e
         value = if e.target? then e.target.value else e
         @props.onChange(value)
 
@@ -152,7 +153,11 @@ ValidatedField = React.createClass
 
             {switch @props.type
                 when 'toggle'
-                    <Toggle options=@props.options onChange=@changeValue selected=@props.value />
+                    <Toggle key=@props.name
+                        options=@props.options
+                        onChange=@changeValue
+                        selected=@props.value
+                    />
                 when 'select'
                     <select value=value onChange=@changeValue>
                         <option>{@props.placeholder || 'Select one'}</option>
@@ -178,6 +183,8 @@ ValidatedField = React.createClass
                         name=@props.name
                         icon=@props.icon
                         label=@props.label
+                        onChange=@changeValue
+                        checked=@props.value
                     />
                 else
                     <input key=@props.name
@@ -219,12 +226,15 @@ ValidatedForm = React.createClass
 
 Checkbox = React.createClass
     getInitialState: ->
-        checked: false
+        checked: @props.checked || false
+
+    componentWillReceiveProps: ->
+        @setState checked: @props.checked
 
     toggleCheck: ->
         console.log '[Checkbox.toggleCheck]'
-        @setState checked: !@state.checked
-        @props.onChange?()
+        @setState checked: !@state.checked, =>
+            @props.onChange?(@state.checked)
 
     render: ->
         <div className='checkbox'>
