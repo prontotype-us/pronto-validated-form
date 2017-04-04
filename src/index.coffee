@@ -44,6 +44,9 @@ ValidatedFormMixin =
         @setState {values: {}, errors: {}, changed: false}
 
     renderFields: ->
+        console.log '[ValidatedFormMixin.renderFields] @props =', @props
+        console.log '[ValidatedFormMixin.renderFields] @state =', @state
+
         <div>
             {Object.keys(@props.fields).map (field_name) =>
                 @renderField field_name
@@ -138,7 +141,7 @@ ValidatedField = React.createClass
             value = _value
 
         <div className=form_group_class>
-            {if @props.type != 'hidden'
+            {if @props.type not in ['hidden', 'checkbox']
                 <label htmlFor=@props.name>
                     {if @props.icon
                         <i className="fa fa-#{@props.icon}" />
@@ -170,6 +173,12 @@ ValidatedField = React.createClass
                     />
                 when 'object'
                     <ObjectEditor object={value or {}} onSave=@changeValue />
+                when 'checkbox'
+                    <Checkbox key=@props.name
+                        name=@props.name
+                        icon=@props.icon
+                        label=@props.label
+                    />
                 else
                     <input key=@props.name
                         ref='field'
@@ -207,6 +216,21 @@ ValidatedForm = React.createClass
                 }
             </button>
         </form>
+
+Checkbox = React.createClass
+    render: ->
+        <div className='checkbox'>
+            <input 
+                type='checkbox'
+                name=@props.name
+            />
+            <label htmlFor=@props.name>
+                {if @props.icon
+                    <i className="fa fa-#{@props.icon}" />
+                }
+                <span>{@props.label || helpers.humanize(@props.name)}</span>
+            </label>
+        </div>
 
 Toggle = React.createClass
     getInitialState: ->
