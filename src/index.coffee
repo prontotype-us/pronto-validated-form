@@ -181,7 +181,6 @@ ValidatedField = React.createClass
                         label=@props.label
                         onChange=@changeValue
                         checked=@props.value
-                        error=@props.error
                     />
                 else
                     <input key=@props.name
@@ -236,7 +235,6 @@ Checkbox = React.createClass
                 name=@props.name
                 checked={@state.checked}
                 onChange=@toggleCheck
-                className={if @props.error then 'error' else ''}
             />
             <label htmlFor=@props.name>
                 {if @props.icon
