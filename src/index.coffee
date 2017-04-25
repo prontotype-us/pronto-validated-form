@@ -150,7 +150,7 @@ ValidatedField = React.createClass
 
         <div className=form_group_class>
             {if @props.type not in ['hidden', 'checkbox']
-                <label htmlFor=@props.name>
+                <label htmlFor="validated-field-#{@props.name}">
                     {if @props.icon
                         <i className="fa fa-#{@props.icon}" />
                     }
@@ -166,8 +166,8 @@ ValidatedField = React.createClass
                         selected=@props.value
                     />
                 when 'select'
-                    <select value=value onChange=@changeValue >
-                        <option disabled=true value='' >
+                    <select id="validated-field-#{@props.name}" value=value onChange=@changeValue>
+                        <option disabled=true value=''>
                             {@props.placeholder || 'Select one'}
                         </option>
                         {@props.options.map (o) ->
@@ -175,8 +175,8 @@ ValidatedField = React.createClass
                         }
                     </select>
                 when 'select-multi'
-                    <select value=value multiple=true onChange=@toggleValue >
-                        <option disabled=true >{@props.placeholder || 'Select multi'}</option>
+                    <select id="validated-field-#{@props.name}" value=value multiple=true onChange=@toggleValue>
+                        <option disabled=true>{@props.placeholder || 'Select multi'}</option>
                         {@props.options.map (o) ->
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
                         }
@@ -184,6 +184,7 @@ ValidatedField = React.createClass
                 when 'textarea'
                     <textarea key=@props.name
                         ref='field'
+                        id="validated-field-#{@props.name}"
                         name=@props.name
                         type=@props.type
                         placeholder={@props.placeholder || helpers.humanize(@props.name)}
@@ -205,6 +206,7 @@ ValidatedField = React.createClass
                 else
                     <input key=@props.name
                         ref='field'
+                        id="validated-field-#{@props.name}"
                         name=@props.name
                         type=@props.type
                         placeholder={@props.placeholder || helpers.humanize(@props.name)}
@@ -256,15 +258,16 @@ Checkbox = React.createClass
         <div className='checkbox'>
             <input 
                 type='checkbox'
+                id="validated-field-#{@props.name}"
                 name=@props.name
                 checked={@state.checked}
                 onChange=@toggleCheck
             />
-            <label htmlFor=@props.name>
+            <label htmlFor="validated-field-#{@props.name}">
                 {if @props.icon
                     <i className="fa fa-#{@props.icon}" />
                 }
-                {if @props.label? 
+                {if @props.label?
                     @props.label
                 else
                     <span>{helpers.humanize(@props.name)}</span>
