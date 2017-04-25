@@ -9,9 +9,6 @@ exists = (value) ->
 has_length = (value) ->
     value?.length > 0
 
-valid_password = (value) ->
-    value?.length >= 4
-
 valid_phone = (value) ->
     phone_regexp = RegExp '^\\(?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$', 'i'
     return value?.match(phone_regexp)
@@ -23,7 +20,6 @@ valid_email = (value) ->
 module.exports = {
     exists
     has_length
-    valid_password
     valid_phone
     valid_email
 }
