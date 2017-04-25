@@ -91,6 +91,17 @@ ValidatedField = React.createClass
         value = if e.target? then e.target.value else e
         @props.onChange(value)
 
+    toggleValue: (e) ->
+        value = if e.target? then e.target.value else e
+        console.log 'toggling my value', value
+        current_values = @value() || []
+        console.log 'my current value', current_values
+        if value in current_values
+            current_values = current_values.filter (v) -> v != value
+        else
+            current_values.push value
+        @props.onChange(current_values)
+
     focus: ->
         @refs.field.focus()
 
@@ -155,8 +166,17 @@ ValidatedField = React.createClass
                         selected=@props.value
                     />
                 when 'select'
-                    <select value=value onChange=@changeValue>
-                        <option>{@props.placeholder || 'Select one'}</option>
+                    <select value=value onChange=@changeValue >
+                        <option disabled=true value='' >
+                            {@props.placeholder || 'Select one'}
+                        </option>
+                        {@props.options.map (o) ->
+                            <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
+                        }
+                    </select>
+                when 'select-multi'
+                    <select value=value multiple=true onChange=@toggleValue >
+                        <option disabled=true >{@props.placeholder || 'Select multi'}</option>
                         {@props.options.map (o) ->
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
                         }
@@ -208,7 +228,11 @@ ValidatedForm = React.createClass
         changed: false
         values: @props.values or {}
 
+    onChanged: (key, value) ->
+        @props.onChanged?(key, value)
+
     render: ->
+        console.log @state
         <form onSubmit=@trySubmit className='validated-form'>
             {@renderFields()}
             <button disabled={!@state.changed}>
