@@ -18,7 +18,6 @@ ValidatedFormMixin =
 
         if !@state.loading
             @setState {errors: {}}
-
             errors = @validate()
 
             if Object.keys(errors).length > 0
@@ -26,10 +25,11 @@ ValidatedFormMixin =
 
             else
                 {values} = @state
-                if @props.onSubmit?
-                    @props.onSubmit?(values, @onUpdated)
-                else if @onSubmit?
-                    @onSubmit(values)
+                @setState {loading: true}, =>
+                    if @props.onSubmit?
+                        @props.onSubmit?(values, @onUpdated)
+                    else if @onSubmit?
+                        @onSubmit(values)
 
     onUpdated: ->
         @setState {changed: false}
@@ -234,7 +234,6 @@ ValidatedForm = React.createClass
         @props.onChanged?(key, value)
 
     render: ->
-        console.log @state
         <form onSubmit=@trySubmit className='validated-form'>
             {@renderFields()}
             <button disabled={!@state.changed}>
