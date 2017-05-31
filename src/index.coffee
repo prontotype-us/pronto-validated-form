@@ -71,8 +71,8 @@ ValidatedField = React.createClass
         return @props.value
 
     validate: ->
-        # Don't bother validating optional or hiddenfields
-        if @isOptional() or @isHidden()
+        # Don't bother validating optional or hiddenfields unless validator is specified
+        if !@props.validator? and (@isOptional() or @isHidden())
             return null
 
         validator = @props.validator || validation['valid_' + @props.type] || validation.exists
