@@ -129,7 +129,7 @@ ValidatedField = React.createClass
 
         form_group_class_set =
             'form-group': true
-            'has-error': @props.error
+            'has-error': @props.error?
             'required': !@isOptional()
         form_group_class_set["#{@props.name}"] = true
         form_group_class_set["#{@props.className}"] = true
@@ -225,6 +225,9 @@ ValidatedField = React.createClass
 ValidatedForm = React.createClass
     mixins: [ValidatedFormMixin]
 
+    getDefaultProps: ->
+        requires_change: false
+
     getInitialState: ->
         loading: false
         changed: false
@@ -236,7 +239,7 @@ ValidatedForm = React.createClass
     render: ->
         <form onSubmit=@trySubmit className='validated-form'>
             {@renderFields()}
-            <button disabled={!@state.changed}>
+            <button disabled={@props.requires_change and !@state.changed}>
                 {if @state.loading
                     "Loading..."
                 else
