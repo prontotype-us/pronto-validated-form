@@ -239,6 +239,7 @@ ValidatedForm = React.createClass
     render: ->
         <form onSubmit=@trySubmit className='validated-form'>
             {@renderFields()}
+            {@props.children}
             <button disabled={@props.requires_change and !@state.changed}>
                 {if @state.loading
                     "Loading..."
