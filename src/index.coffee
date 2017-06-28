@@ -159,6 +159,8 @@ ValidatedField = React.createClass
             }
 
             {switch @props.type
+                when 'custom'
+                    @props.component
                 when 'toggle'
                     <Toggle key=@props.name
                         options=@props.options
