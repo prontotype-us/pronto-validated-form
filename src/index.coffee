@@ -152,7 +152,11 @@ ValidatedField = React.createClass
             value = _value
 
         <div className=form_group_class>
-            {if @props.type not in ['hidden', 'checkbox']
+            {if @props.header_component?
+                @props.header_component
+            }
+
+            {if @props.type not in ['hidden', 'checkbox'] and @props.label != false
                 <label htmlFor="validated-field-#{@props.name}">
                     {if @props.icon
                         <i className="fa fa-#{@props.icon}" />
