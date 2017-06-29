@@ -125,7 +125,7 @@ ValidatedField = React.createClass
 
     render: ->
         if @isHidden()
-            if @props.hidden
+            if @props.hidden_component
                 return @props.hidden_component
             else
                 return <div className='validated-field-hidden' />
