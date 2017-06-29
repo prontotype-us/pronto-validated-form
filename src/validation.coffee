@@ -18,7 +18,7 @@ valid_email = (value) ->
     return value?.match(email_regexp)
 
 valid_checkbox = (value) ->
-    return value == true
+    return true
 
 module.exports = {
     exists
