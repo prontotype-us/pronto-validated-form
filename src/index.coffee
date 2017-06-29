@@ -125,7 +125,10 @@ ValidatedField = React.createClass
 
     render: ->
         if @isHidden()
-            return <div className='validated-field-hidden' />
+            if @props.hidden
+                return @props.hidden_component
+            else
+                return <div className='validated-field-hidden' />
 
         form_group_class_set =
             'form-group': true
