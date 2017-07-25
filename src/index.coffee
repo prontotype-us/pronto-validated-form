@@ -175,7 +175,12 @@ ValidatedField = React.createClass
                         selected=@props.value
                     />
                 when 'select'
-                    <select ref='field' id="validated-field-#{@props.name}" value=value onChange=@changeValue>
+                    <select ref='field'
+                        id="validated-field-#{@props.name}"
+                        value=value
+                        onChange=@changeValue
+                        className={if !value? then 'empty'}
+                    >
                         <option disabled=true value=''>
                             {@props.placeholder || 'Select one'}
                         </option>
