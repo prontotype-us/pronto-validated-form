@@ -103,7 +103,7 @@ ValidatedField = React.createClass
         @props.onChange(current_values)
 
     focus: ->
-        @refs.field.focus()
+        @refs.field.focus?()
 
     isOptional: ->
         if typeof @props.optional == 'function'
