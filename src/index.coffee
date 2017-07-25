@@ -179,7 +179,7 @@ ValidatedField = React.createClass
                         id="validated-field-#{@props.name}"
                         value=value
                         onChange=@changeValue
-                        className={if !value? then 'empty'}
+                        className={if !value then 'empty'}
                     >
                         <option disabled=true value=''>
                             {@props.placeholder || 'Select one'}
