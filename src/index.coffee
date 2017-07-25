@@ -169,13 +169,13 @@ ValidatedField = React.createClass
                 when 'custom'
                     @props.component
                 when 'toggle'
-                    <Toggle key=@props.name
+                    <Toggle ref='field' key=@props.name
                         options=@props.options
                         onChange=@changeValue
                         selected=@props.value
                     />
                 when 'select'
-                    <select id="validated-field-#{@props.name}" value=value onChange=@changeValue>
+                    <select ref='field' id="validated-field-#{@props.name}" value=value onChange=@changeValue>
                         <option disabled=true value=''>
                             {@props.placeholder || 'Select one'}
                         </option>
@@ -184,7 +184,7 @@ ValidatedField = React.createClass
                         }
                     </select>
                 when 'select-multi'
-                    <select id="validated-field-#{@props.name}" value=value multiple=true onChange=@toggleValue>
+                    <select ref='field' id="validated-field-#{@props.name}" value=value multiple=true onChange=@toggleValue>
                         <option disabled=true>{@props.placeholder || 'Select multi'}</option>
                         {@props.options.map (o) ->
                             <option key={o.value || o} value={o.value || o}>{o.display || o}</option>
@@ -203,9 +203,9 @@ ValidatedField = React.createClass
                         autoCorrect=@props.autoCorrect
                     />
                 when 'object'
-                    <ObjectEditor object={value or {}} onSave=@changeValue />
+                    <ObjectEditor ref='field' object={value or {}} onSave=@changeValue />
                 when 'checkbox'
-                    <Checkbox key=@props.name
+                    <Checkbox ref='field' key=@props.name
                         name=@props.name
                         icon=@props.icon
                         label=@props.label
