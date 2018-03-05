@@ -1,14 +1,13 @@
 {
-  "name": "validated-form",
+  "name": "pronto-validated-form",
   "version": "0.1.15",
   "repository": {
     "type": "git",
-    "url": "http://github.com/prontotype-us/validated-form.git"
+    "url": "http://github.com/prontotype-us/pronto-validated-form.git"
   },
   "main": "lib/index.js",
   "scripts": {
-    "build": "cjsx --bare -o lib -c src",
-    "build2": "cjsx --bare -o lib -c src && cp lib/* ../sconce-dashboard/node_modules/validated-form/lib/"
+    "build": "cjsx --bare -o lib -c src"
   },
   "dependencies": {
     "object-editor": "0.0.1",
